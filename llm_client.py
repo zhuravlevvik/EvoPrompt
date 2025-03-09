@@ -1,64 +1,6 @@
-import json
-import os
-import atexit
-import requests
-import sys
 from tqdm import tqdm
-import openai
-from termcolor import colored
 import time
-from utils import read_yaml_file, remove_punctuation, batchify
-
-def extract_seconds(text, retried=5):
-    words = text.split()
-    for i, word in enumerate(words):
-        if "second" in word:
-            return int(words[i - 1])
-    return 60
-
-
-def form_request(data, type, **kwargs):
-    if "davinci" in type:
-        request_data = {
-            "prompt": data,
-            "max_tokens": 1000,
-            "top_p": 1,
-            "n": 1,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
-            "stream": False,
-            "logprobs": None,
-            "stop": None,
-            **kwargs,
-        }
-    else:
-        # assert isinstance(data, str)
-        messages_list = []
-        messages_list.append({"role": "user", "content": data})
-        request_data = {
-            "messages": messages_list,
-            "max_tokens": 1000,
-            "top_p": 0.95,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
-            "stop": None,
-            **kwargs,
-        }
-    # print(request_data)
-    return request_data
-
-
-def llm_init(auth_file="../auth.yaml", llm_type='davinci', setting="default"):
-    auth = read_yaml_file(auth_file)[llm_type][setting]
-    try:
-        openai.api_type = auth['api_type']
-        openai.api_base = auth["api_base"]
-        openai.api_version = auth["api_version"]
-    except:
-        pass
-    openai.api_key = auth["api_key"]
-    return auth
-
+from utils import remove_punctuation, batchify
 
 def llm_query(data, client, type, task, **config):
     hypos = []
@@ -168,7 +110,7 @@ if __name__ == "__main__":
     llm_client = None
     llm_type = 'turbo'
     start = time.time()
-    data =  ["""Q: Tom bought a skateboard for $ 9.46 , and spent $ 9.56 on marbles . Tom 
+    data = ["""Q: Tom bought a skateboard for $ 9.46 , and spent $ 9.56 on marbles . Tom 
 also spent $ 14.50 on shorts . In total , how much did Tom spend on toys ?                                                 
 A: Let's think step by step. """]
     config = llm_init(auth_file="auth.yaml", llm_type=llm_type, setting="default")

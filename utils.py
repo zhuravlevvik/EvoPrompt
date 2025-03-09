@@ -25,9 +25,11 @@ def read_yaml_file(file_path):
         config = yaml.safe_load(file)
     return config
 
+
 def remove_punctuation(s):
     translator = str.maketrans('', '', string.punctuation)
     return s.translate(translator)
+
 
 def first_appear_pred(text, verbalizer_dict, logger):
     text = text.lower()
@@ -81,6 +83,7 @@ def format_template(
     template_ = template_.replace("<line_break>", line_break)
     return template_
 
+
 def get_final_prompt(text):
     parts = text.split("<prompt>")
     if len(parts) > 1:
@@ -113,6 +116,7 @@ def load_sum_data_(src_file, tgt_file, sample_indices=None):
     tgt = read_lines(tgt_file, sample_indices=sample_indices)
     return src, tgt
 
+
 def load_sum_data(dataset, seed, sample_num):
     random.seed(seed)
     if dataset == 'sam':
@@ -125,6 +129,7 @@ def load_sum_data(dataset, seed, sample_num):
     print(sample_indices)
     dev_tgt = [dev_tgt[i] for i in sample_indices]
     return dev_src, dev_tgt, test_src, test_tgt
+
 
 def load_sim_data_(src_file, tgt_files, sample_indices=None):
     src = read_lines(src_file, sample_indices=sample_indices)
@@ -158,8 +163,10 @@ def load_sim_data(dataset, seed):
         dev_tgt_.append([i[j] for j in sample_indices])
     return dev_src, dev_tgt_, test_src, test_tgt
 
+
 def extract_numbers(string):
     return [int(num) for num in re.findall(r'\d+', string)][0]
+
 
 def extract_n_samples_per_class(src, tgt, n, dataset):
     src_new = []
@@ -174,17 +181,20 @@ def extract_n_samples_per_class(src, tgt, n, dataset):
     tgt_new = [e[1:] for e in tgt_new] if dataset != 'agnews' else tgt_new
     return src_new, tgt_new
 
+
 def batchify(data, batch_size=16):
     batched_data = []
     for i in range(0, len(data), batch_size):
         batched_data.append(data[i:i + batch_size])
     return batched_data
 
+
 def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+
 
 def setup_log(log_path, log_name="basic"):
     print("Setting up log for", log_name)
@@ -206,7 +216,6 @@ def setup_log(log_path, log_name="basic"):
         logger.addHandler(stream_handler)
         logger.addHandler(file_handler)
     return logger
-
 
 
 def get_dataset_verbalizers(dataset: str) -> List[str]:
@@ -252,12 +261,17 @@ def k_init_pop(initial_mode, init_population, k):
         population = [i for i in init_population[-k:]]
     return population
 
+
 def cal_mean_std(results):
     if results[0] < 1.0:
         results = [result * 100 for result in results]
     mean = np.mean(results)
     std = np.std(results)
     return round(mean, 2), round(std, 2)
+
+
+def load_dataset(name: str, prompt: str = "", batch_size: int = 16):
+    raise NotImplementedError
 
 
 if __name__ == '__main__':

@@ -27,22 +27,16 @@ def eval_cls_baseline(evaluator,mode, args):
     print(scores)
     return scores
 
+
 def evaluate_optimized_prompt(population, pop_marks, out_path, evaluator, args):
     with open(
         out_path,
         "w",
     ) as wf:
         prompts, marks, all_scores, scores_strs = [], [], [], []
-        if args.task == 'cls':
-            eval_src, eval_tgt = load_cls_data(
-                evaluator.verbalizers, args.test_file
-            )
-        else:
-            eval_src, eval_tgt = evaluator.test_src, evaluator.test_tgt
 
         for prompt, mark in zip(population, pop_marks):
-            res = evaluator.forward(prompt,eval_src, eval_tgt)
-            scores = res["scores"]
+            scores = evaluator.forward(prompt)
             all_scores.append(scores[-1])
             scores_str = "\t".join([str(round(s, 4)) for s in scores])
             wf.write(f"{mark}\t{prompt}\t{scores_str}\n")
@@ -64,7 +58,8 @@ def evaluate_optimized_prompt(population, pop_marks, out_path, evaluator, args):
             )
         wf.close()
     return score_sorted[0], prompts_sorted[0]
-    
+
+
 if __name__ == "__main__":
     eval_args = parse_args()
     print(eval_args)
@@ -81,4 +76,3 @@ if __name__ == "__main__":
        evaluator, eval_args, eval_args.content,
     )
     print(scores)
-
