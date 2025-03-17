@@ -22,6 +22,7 @@ from utils import *
 from dataset import TextDataset
 from llm_client import *
 from metrics import *
+from src.evaluation.evaluator import TextClassificationEvaluator, GenerationEvaluator
 
 
 class Evaluator(object):
@@ -59,8 +60,8 @@ class Evaluator(object):
     def forward(self, prompt: str = ""):
         dataset = load_dataset(
             self.dataset,
+            tokenizer=self.tokenizer,
             prompt=prompt,
-            batch_size=self.args.batch_size
         )
         scores = self.metrics_evaluator.evaluate(
             model=self.model,
@@ -76,7 +77,7 @@ class CLSEvaluator(Evaluator):
     def __init__(self, args):
         super(CLSEvaluator, self).__init__(args)
         self.metrics_evaluator = TextClassificationEvaluator()
-        
+
 
 class SumEvaluator(Evaluator):
     def __init__(self, args):
