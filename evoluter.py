@@ -7,12 +7,10 @@ import random
 from utils import (
     read_lines,
     get_final_prompt,
-    load_cls_data,
     extract_numbers,
     k_init_pop,
 )
 from infer import evaluate_optimized_prompt
-from llm_client import paraphrase, llm_query
 from data.templates import templates
 from data.template_ga import templates_2
 
@@ -142,24 +140,11 @@ class Evoluter:
             cur_budget = extract_numbers(args.ckpt_pop.split("/")[-1])
             logger.info("cur budget is {}".format(cur_budget))
 
-        client = evaluator.client
-        llm_config = evaluator.llm_config
 
-        # test LLM
-        _ = paraphrase(
-            sentence="Hi, I am a student.",
-            type=args.llm_type,
-            client=client,
-            temperature=0.5,
-            **llm_config,
-        )
-        logger.info("test LLM client success")
         if args.initial_mode in ["para_topk", "para_bottomk", "para_randomk"]:
             k_pop = k_init_pop(args.initial_mode, init_population, k=args.popsize)
             logger.info("-----paraphrasing topk---------")
-            para_population = paraphrase(
-                client=client, sentence=k_pop, type=args.llm_type, **llm_config
-            )
+            para_population = self.evaluator.paraphrase(sentence=k_pop)
             for p in para_population:
                 prompts2mark[p] = "para"
                 score = evaluator.forward(p)
@@ -247,12 +232,6 @@ class ParaEvoluter(Evoluter):
                 logger.info(f"{prompt}, {self.evaluated_prompts[prompt]}")
             cur_budget = extract_numbers(args.ckpt_pop.split("/")[-1])
 
-        _ = paraphrase(
-            sentence=self.init_population[0],
-            client=self.client,
-            type="davinci",
-            **self.llm_config,
-        )
         assert mode == "topk"
         # initial population evaluation
         if args.initial != "ckpt":
@@ -272,12 +251,9 @@ class ParaEvoluter(Evoluter):
             self.population, self.marks, self.scores = [], [], []
             top_k = heapq.nlargest(k, topk_heap)
             new_prompts = []
-            paraphrased_prompts = paraphrase(
+            paraphrased_prompts = self.evaluator.paraphrase(
                 sentence=[i[1] for i in top_k],
-                client=self.client,
-                type=args.llm_type,
                 temperature=0.5,
-                **self.llm_config,
             )
             for i, prompt in enumerate(paraphrased_prompts):
                 self.logger.info(f"step: {step}, prompt: {prompt}")
@@ -393,13 +369,9 @@ class GAEvoluter(Evoluter):
                 logger.info("parents:")
                 logger.info(cand_a)
                 logger.info(cand_b)
-                child_prompt = llm_query(
-                    client=self.client,
+                child_prompt = self.evaluator.llm_query(
                     data=request_content,
-                    type=args.llm_type,
-                    task=False,
                     temperature=0.5,
-                    **self.llm_config,
                 )
                 logger.info(f"original child prompt: {child_prompt}")
                 child_prompt = get_final_prompt(child_prompt)
@@ -501,7 +473,6 @@ class DEEvoluter(Evoluter):
         template = self.template
 
         out_path = evaluator.public_out_path
-        llm_config = evaluator.llm_config
 
         prompts = []
         marks = []
@@ -552,12 +523,9 @@ class DEEvoluter(Evoluter):
                 logger.info(a)
                 logger.info(b)
                 # logger.info(f"old_child: {old_prompt}, {old_score}")
-                de_prompt = llm_query(
+                de_prompt = self.evaluator.llm_query(
                     data=request_content,
-                    type=args.llm_type,
-                    task=False,
                     temperature=0.5,
-                    **llm_config,
                 )
                 logger.info(f"de original prompt: {de_prompt}")
                 de_prompt = get_final_prompt(de_prompt)

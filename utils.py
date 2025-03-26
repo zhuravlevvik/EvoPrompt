@@ -1,3 +1,5 @@
+import os
+import sys
 import re
 import yaml
 import random
@@ -7,6 +9,10 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 import torch
 import numpy as np
+
+project_root = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
+sys.path.append(project_root)
+
 from src.data.classification import *
 from src.data.generation import *
 from src.data.multi_task import *
@@ -158,8 +164,13 @@ def load_dataset(
     return ds
 
 
-if __name__ == '__main__':
-    dev_src, dev_tgt, test_src, test_tgt = load_sum_data('sam', 5, 100)
-    lengths = [len(i) for i in dev_src]
-    from collections import Counter
-    print(dict(Counter(lengths))[0])
+def get_final_prompt(text):
+    parts = text.split("<prompt>")
+    if len(parts) > 1:
+        prompt = parts[-1].split("</prompt>")[0]
+        prompt = prompt.strip()
+        return prompt
+    else:
+        if text.startswith("\"") and text.endswith("\""):
+            text = text[1:-1]
+        return text

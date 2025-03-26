@@ -9,9 +9,10 @@ parser.add_argument('--step', '-s', default=9)
 
 args = parser.parse_args()
 
+
 def cal_test_result_3seed(path, step):
     scores = []
-    for seed in [5, 10, 15]:
+    for seed in [15]:
         with open(f'{path}/seed{seed}/step{step}_pop_test.txt') as f:
             line = f.readlines()[0].strip()
             score = line.split('\t')[-1]
@@ -24,7 +25,7 @@ def cal_test_result_3seed(path, step):
     print(cal_mean_std(scores))
 
 def cal_dev_result_3seed(path,step):
-    for seed in [5, 10, 15]:
+    for seed in [15]:
         with open(f'{path}/seed{seed}/step{step}_pop.txt') as f:
             line = f.readlines()[-2:]
             best_score = line[0].strip().split('best score: ')[-1]
@@ -33,7 +34,7 @@ def cal_dev_result_3seed(path,step):
 
 def cal_sum_test_result_3seed(path,step):
     all_scores = []
-    for seed in [5, 10, 15]:
+    for seed in [15]:
         with open(f'{path}/seed{seed}/step{step}_pop_test.txt') as f:
             line = f.readlines()[0].strip()
             scores = line.split('\t')[2:]
