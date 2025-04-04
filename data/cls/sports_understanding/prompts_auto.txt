@@ -1,0 +1,14 @@
+Evaluate if the described action is plausible in basketball.
+Is the following sentence plausible? Please determine if the described event is a real, likely occurrence.
+Check if the sentence is plausible, meaning determine if it contains unusual or negative events.
+Check for specific achievements or significant events in the sentences.
+Check if the sentence describes a plausible event. If it does, output 'yes'; otherwise, output 'no'.
+Determine if the following sentence is plausible.
+Is the following action plausible in the context of a football game?
+Check if the action described is a plausible play in a baseball game.
+Check if the following event is plausible.
+Is the following sentence plausible? [Sentence].
+Check if a specific play happened in the game
+Check if a specific player performed a particular action in a given year.
+Is the following sentence plausible?
+Check if the following sentence is plausible. If it is, write 'yes'; if not, write 'no'.

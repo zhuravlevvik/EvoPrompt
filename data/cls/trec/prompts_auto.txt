@@ -6,15 +6,16 @@ identify the type of answer (description, entity, or human) that should be given
 provide an answer type for each input: either a number, description, or entity.
 identify the type of the input and provide the corresponding output, i.e. "Description" for questions that seek information about a description, "Entity" for questions that seek information about an entity, and "Human" for questions that seek information about
 provide the type of information being requested, such as a number, description, or entity.
-provide an answer type (e.g., number, entity, description) for the given questions.
-ask a question and then provide the appropriate label for the answer ("Description", "Entity", or "Human").
-provide an appropriate response category (Number, Description, Entity) for each question.
-provide an answer type corresponding to each question. The answer type should indicate what type of information is expected in the answer to the question. For example, the answer to "When did Charles Lindbergh die?" should be a number (the year).
-identify the type of output (number, description, entity, etc.) that would answer the given input.
-identify the type of response (e.g. number, description, entity) that should be given for each of the questions.
-identify the type of answer (i.e. number, description, or entity) to be provided for each given question.
-identify the type of answer (number, description, entity) that would be needed to answer each question.
-identify the type of answer that each input requires.
-determine whether the question being asked is asking for a description or a specific entity.
-provide the appropriate type of response for each question - either a number, a description, or an entity.
-determine whether the input was asking for a description or for the name of a person or entity, and to provide the appropriate output.
+Identify the type of entity or item in each input sentence. Provide a description or category for the entity identified.
+Explain or define a term
+Look for concepts or categories that fit certain terms or questions. Sometimes, you might need to discover new concepts.
+Find the [specific term] mentioned in the input and provide its [specific output].
+Find the answer to the question, but if the question is about a specific event time, provide the date.
+Identify the name of a specific item or place and replace it with the given location.
+What is the description of...? Or, What is the answer to...?
+What [subject] is [specific information about it]?
+Determine the reason behind something, often using puns or wordplay.  
+name something
+What is the name, nickname, number, group, or sport of a specific entity?
+Explain each input sentence or identify the entities referred to in them. The outputs are the answers to these explanations or interpretations.
+Ask about a specific event

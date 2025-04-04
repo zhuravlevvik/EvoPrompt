@@ -1,0 +1,10 @@
+sort the following words alphabetically
+Sort the following words alphabetically
+Sort the words alphabetically
+Sort the following words alphabetically in a case-insensitive manner
+Sort the following words alphabetically: List: 
+Sort the following words alphabetically, List: 
+Sort the following words alphabetically.
+1. Sort the words alphabetically. 2. Reassemble the words into a grammatically correct sentence.
+Sort the following words alphabetically and list them.
+Sort the following words alphabetically, remove spaces from output.
