@@ -1,7 +1,4 @@
-import json
 import sys
-from args import parse_args
-from evaluator import CLSEvaluator,  SumEvaluator, SimEvaluator
 
 sys.path.append("./")
 
@@ -18,7 +15,7 @@ def evaluate_optimized_prompt(population, pop_marks, out_path, evaluator, args):
         prompts, marks, all_scores, scores_strs = [], [], [], []
 
         for prompt, mark in zip(population, pop_marks):
-            scores = evaluator.forward(prompt)
+            scores = evaluator.forward(prompt, all=True)
             all_scores.append(scores[-1])
             scores_str = "\t".join([str(round(s, 4)) for s in scores])
             wf.write(f"{mark}\t{prompt}\t{scores_str}\n")

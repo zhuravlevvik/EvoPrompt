@@ -364,8 +364,8 @@ class GAEvoluter(Evoluter):
                     "<prompt2>", cand_b
                 )
                 # logger.info(f"old_child: {old_prompt}, {old_score}")
-                logger.info("evolution example:")
-                logger.info(request_content)
+                # logger.info("evolution example:")
+                # logger.info(request_content)
                 logger.info("parents:")
                 logger.info(cand_a)
                 logger.info(cand_b)
@@ -373,7 +373,7 @@ class GAEvoluter(Evoluter):
                     data=request_content,
                     temperature=0.5,
                 )
-                logger.info(f"original child prompt: {child_prompt}")
+                # logger.info(f"original child prompt: {child_prompt}")
                 child_prompt = get_final_prompt(child_prompt)
                 logger.info(f"child prompt: {child_prompt}")
 
@@ -517,8 +517,8 @@ class DEEvoluter(Evoluter):
                     .replace("<prompt3>", c)
                 )
                 # if j == 0:
-                evaluator.logger.info("evolution example:")
-                evaluator.logger.info(request_content)
+                # evaluator.logger.info("evolution example:")
+                # evaluator.logger.info(request_content)
                 logger.info("parents:")
                 logger.info(a)
                 logger.info(b)
@@ -527,7 +527,7 @@ class DEEvoluter(Evoluter):
                     data=request_content,
                     temperature=0.5,
                 )
-                logger.info(f"de original prompt: {de_prompt}")
+                # logger.info(f"de original prompt: {de_prompt}")
                 de_prompt = get_final_prompt(de_prompt)
                 logger.info(f"de prompt: {de_prompt}")
 

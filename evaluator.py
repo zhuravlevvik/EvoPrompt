@@ -21,7 +21,9 @@ class Evaluator(object):
         self.model = LLM(
             model=args.language_model,
             dtype=torch.float16,
-            trust_remote_code=True
+            trust_remote_code=True,
+            # tensor_parallel_size=1,
+            # pipeline_parallel_size=1,
         )
         self.tokenizer = AutoTokenizer.from_pretrained(
             args.language_model, padding_side="left", use_fast=False
@@ -66,7 +68,7 @@ class Evaluator(object):
             batch_size=self.args.batch_size,
             model_generate_args=self.model_generate_args
         )
-        return [scores['f1']]
+        return [scores[self.args.metric]]
 
     def llm_query(self, data, **config):
         sampling_params = {
@@ -115,13 +117,7 @@ class CLSEvaluator(Evaluator):
         self.metrics_evaluator = TextClassificationEvaluator()
 
 
-class SumEvaluator(Evaluator):
+class GENEvalutator(Evaluator):
     def __init__(self, args):
-        super(SumEvaluator, self).__init__(args)
-        self.metrics_evaluator = GenerationEvaluator()
-
-
-class SimEvaluator(Evaluator):
-    def __init__(self, args):
-        super(SimEvaluator, self).__init__(args)
+        super(GENEvalutator, self).__init__(args)
         self.metrics_evaluator = GenerationEvaluator()
