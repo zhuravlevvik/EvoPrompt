@@ -10,7 +10,7 @@ POPSIZE=10
 SEED=15
 GA=topk
 
-for dataset in boolean_expressions causal_judgement date_understanding disambiguation_qa formal_fallacies geometric_shapes hyperbaton logical_deduction_five_objects logical_deduction_three_objects logical_deduction_seven_objects movie_recommendation navigate penguins_in_a_table reasoning_about_colored_objects ruin_names salient_translation_error_detection snarks sports_understanding temporal_sequences tracking_shuffled_objects_five_objects tracking_shuffled_objects_seven_objects tracking_shuffled_objects_three_objects
+for dataset in dyck_languages gsm8k math multistep_arithmetic_two object_counting samsum word_sorting
 do
 OUT_PATH=outputs/gen/$dataset/de/bd${BUDGET}_top${POPSIZE}_para_topk_init/$GA/$LLM_TYPE
 for SEED in 15

@@ -53,10 +53,12 @@ class Evaluator(object):
         )
         logger.info("=" * 50)
 
-    def forward(self, prompt: str = "", all=False):
-        sample = None if all else self.args.sample_num
+    def forward(self, prompt: str = "", test=False):
+        sample = self.args.sample_num
+        split = 'test' if test else 'train'
         dataset = load_dataset(
             self.dataset,
+            split=split,
             tokenizer=self.tokenizer,
             prompt=prompt,
             sample=sample

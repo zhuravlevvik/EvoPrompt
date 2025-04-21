@@ -459,10 +459,7 @@ class GAEvoluter(Evoluter):
 class DEEvoluter(Evoluter):
     def __init__(self, args, evaluator):
         super(DEEvoluter, self).__init__(args, evaluator)
-        if args.task in ["cls", "sum"]:
-            self.template = templates[args.template]["sim"]
-        elif args.task == "sim":
-            self.template = templates[args.template]["cls"]["sst-5"]
+        self.template = templates[args.template]["gen"]
 
     def evolute(self):
         logger = self.logger
