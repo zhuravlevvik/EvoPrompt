@@ -1,14 +1,14 @@
 from args import parse_args
 from evolution import ape, ga_evo, de_evo
 from utils import set_seed
-from evaluator import CLSEvaluator, SimEvaluator, SumEvaluator
+from evaluator import CLSEvaluator, GENEvalutator
+
 
 def run(args):
     set_seed(args.seed)
     task2evaluator = {
         "cls": CLSEvaluator,
-        "sum": SumEvaluator,
-        "sim": SimEvaluator,
+        "gen": GENEvalutator,
     }
     evaluator = task2evaluator[args.task](args)
     evaluator.logger.info(

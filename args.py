@@ -5,8 +5,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description="training args.")
     # prompt args
     parser.add_argument("--dataset", type=str, default="sst2", help="dataset name")
-    parser.add_argument("--task", type=str, choices=["cls", "sum", "sim"])
+    parser.add_argument("--task", type=str, choices=["cls", "gen"])
     parser.add_argument("--test_file", type=str, default=None)
+    parser.add_argument("--metric", type=str, choices=["f1", "accuracy", "bleu", "rouge", "meteor"])
     parser.add_argument(
         "--batch-size",
         type=int,

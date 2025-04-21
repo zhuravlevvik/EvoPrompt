@@ -7,7 +7,7 @@
     "cls": {
         "icl": {
             "opt": {
-                "sst2": [
+                "sst-2": [
                     "Input: <input>\nOutput: <output>",
                     "Input: one of the year 's best films , featuring an oscar-worthy performance by julianne moore .\nOutput: positive\n\nInput: it 's just merely very bad .\nOutput: negative\n\nInput: <input>\nOutput: "
                 ],
@@ -41,7 +41,7 @@
                 ]
             },
             "alpaca": {
-                "sst2": [
+                "sst-2": [
                     "### Input:\n<input>\n\n### Response:\n<output>",
                     "### Input:\ngreat phone , i 'd buy another .\n\n### Response:\npositive\n\n### Input:\nit 's just merely very bad .\n\n### Response:\nnegative\n\n### Input:\n<input>\n\n### Response:\n<output>"
                 ],

@@ -1,6 +1,6 @@
 
 v1 = {
-    "sim":"""Please follow the instruction step-by-step to generate a better prompt.
+    "gen":"""Please follow the instruction step-by-step to generate a better prompt.
 1. Identify the different parts between the Prompt 1 and Prompt 2:
 Prompt 1: Rewrite the input text into simpler text.
 Prompt 2: Rewrite my complex sentence in simpler terms, but keep the meaning.

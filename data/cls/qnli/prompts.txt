@@ -1,0 +1,2 @@
+Define if the sentence entails the question.
+Choose the logical connection between the question and the sentence.

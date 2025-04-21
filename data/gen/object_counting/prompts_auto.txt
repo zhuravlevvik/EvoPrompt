@@ -1,0 +1,11 @@
+Count the number of items in your list.
+count the number of fruit/s in this sentence.
+Count the number of items listed in the list.
+Count the number of each type of item in the input and sum them up.
+Count the number of [item types] you have.
+Identify and count the specified items mentioned in each question.
+Count the number of musical instruments mentioned in the input.
+Count the total number of items in the input.
+Count how many items you have in each list.
+Write a list of vegetables and fruits, specifying each type. For each item in your input, count it if it matches the list above. The total count is the number of matches.
+Count the number of items in the list
