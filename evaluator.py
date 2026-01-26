@@ -9,33 +9,20 @@ from src.evaluation.evaluator import (
     GenerationEvaluator
 )
 from src.utils.load_dataset import load_dataset
+from langchain_core.rate_limiters import InMemoryRateLimiter
+from langchain_openai.chat_models import ChatOpenAI
+from langchain_core.messages.ai import AIMessage
+from coolprompt.evaluator import Evaluator as CoolEval, validate_and_create_metric
+from coolprompt.utils.var_validation import validate_task
 
 
 class Evaluator(object):
-    def __init__(self, args) -> None:
-        self.device = torch.device(
-            "cuda" if torch.cuda.is_available() else "cpu"
-        )
-        self.dataset = args.dataset
-
-        self.model = LLM(
-            model=args.language_model,
-            dtype=torch.float16,
-            trust_remote_code=True,
-            # tensor_parallel_size=1,
-            # pipeline_parallel_size=1,
-        )
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            args.language_model, padding_side="left", use_fast=False
-        )
-
-        self.model_generate_args = {
-            "max_tokens": 50,
-            "stop_token_ids": [
-                self.tokenizer.eos_token_id,
-                self.tokenizer.convert_tokens_to_ids('<|eot_id|>')
-            ]
-        }
+    def __init__(self, args, model, train_dataset, train_targets, valid_dataset, valid_targets) -> None:
+        self.model = model
+        self.train_dataset = train_dataset
+        self.valid_dataset = valid_dataset
+        self.train_targets = train_targets
+        self.valid_targets = valid_targets
 
         self.public_out_path = args.output
         if not os.path.exists(self.public_out_path):
@@ -54,51 +41,26 @@ class Evaluator(object):
         logger.info("=" * 50)
 
     def forward(self, prompt: str = "", test=False):
-        sample = self.args.sample_num
-        split = 'test' if test else 'train'
-        dataset = load_dataset(
-            self.dataset,
-            split=split,
-            tokenizer=self.tokenizer,
-            prompt=prompt,
-            sample=sample
-        )
-        scores = self.metrics_evaluator.evaluate_vllm(
-            model=self.model,
-            tokenizer=self.tokenizer,
-            eval_ds=dataset,
-            batch_size=self.args.batch_size,
-            model_generate_args=self.model_generate_args
-        )
-        return [scores[self.args.metric]]
+        if test:
+            dataset = self.valid_dataset
+            target = self.valid_targets
+        else:
+            dataset = self.train_dataset
+            target = self.train_targets
+        score = self._evaluator.evaluate(prompt, dataset, target)
+        return [score]
 
     def llm_query(self, data, **config):
-        sampling_params = {
-            "max_tokens": 1000,
-            "top_p": 0.95,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
-        }
-        sampling_params.update(**config)
-        sampling_params = SamplingParams(**sampling_params)
-
         if not isinstance(data, list):
             data = [data]
 
-        data = batchify(data)
-        results = []
+        answers = self.model.batch(data)
 
-        for batch in tqdm(data):
-            answers = self.model.generate(
-                prompts=batch, sampling_params=sampling_params, use_tqdm=False
-            )
+        answers = [a.content
+                   if isinstance(a, AIMessage)
+                   else a for a in answers]
 
-            outputs = [answer.outputs[0].text for answer in answers]
-            results.extend(outputs)
-
-        if len(results) == 1:
-            results = results[0]
-        return results
+        return answers
 
     def paraphrase(self, sentence, **kwargs):
         if isinstance(sentence, list):
@@ -114,12 +76,16 @@ class Evaluator(object):
 
 
 class CLSEvaluator(Evaluator):
-    def __init__(self, args):
-        super(CLSEvaluator, self).__init__(args)
-        self.metrics_evaluator = TextClassificationEvaluator()
+    def __init__(self, args, model, train_dataset, train_targets, valid_dataset, valid_targets):
+        super(CLSEvaluator, self).__init__(args, model, train_dataset, train_targets, valid_dataset, valid_targets)
+        task = validate_task("classification")
+        metric = validate_and_create_metric(task, args.metric)
+        self._evaluator = CoolEval(self.model, task, metric)
 
 
 class GENEvalutator(Evaluator):
-    def __init__(self, args):
-        super(GENEvalutator, self).__init__(args)
-        self.metrics_evaluator = GenerationEvaluator()
+    def __init__(self, args, model, train_dataset, train_targets, valid_dataset, valid_targets):
+        super(GENEvalutator, self).__init__(args, model, train_dataset, train_targets, valid_dataset, valid_targets)
+        task = validate_task("generation")
+        metric = validate_and_create_metric(task, args.metric)
+        self._evaluator = CoolEval(self.model, task, metric)

@@ -62,10 +62,6 @@ class Evoluter:
         prompts2mark = {}
         manual_prompt_path = f"./data/{args.task}/{dataset}/prompts.txt"
         ape_prompt_path = f"./data/{args.task}/{dataset}/prompts_auto.txt"
-        if "gpt" in args.language_model or "opt" in args.language_model:
-            model = f"_{args.language_model}"
-        else:
-            model = ""
 
         manual_pop = read_lines(manual_prompt_path)
         try:
@@ -85,7 +81,7 @@ class Evoluter:
             cache_path = (
                 args.cache_path
                 if args.cache_path
-                else f"./data/{args.task}/{dataset}/seed{args.seed}/prompts{model}.json"
+                else f"./data/{args.task}/{dataset}/seed{args.seed}/prompts.json"
             )
             try:
                 self.evaluated_prompts = json.load(open(cache_path, "r"))
@@ -372,7 +368,7 @@ class GAEvoluter(Evoluter):
                 child_prompt = self.evaluator.llm_query(
                     data=request_content,
                     temperature=0.5,
-                )
+                )[0]
                 # logger.info(f"original child prompt: {child_prompt}")
                 child_prompt = get_final_prompt(child_prompt)
                 logger.info(f"child prompt: {child_prompt}")
@@ -523,7 +519,7 @@ class DEEvoluter(Evoluter):
                 de_prompt = self.evaluator.llm_query(
                     data=request_content,
                     temperature=0.5,
-                )
+                )[0]
                 # logger.info(f"de original prompt: {de_prompt}")
                 de_prompt = get_final_prompt(de_prompt)
                 logger.info(f"de prompt: {de_prompt}")

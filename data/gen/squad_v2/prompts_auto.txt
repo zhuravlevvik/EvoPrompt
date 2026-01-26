@@ -1,0 +1,10 @@
+Respond to the question within the given situation.
+Provide an answer based on the context provided.
+Share your thoughts in relation to the scenario given.
+Offer a response that aligns with the context given.
+Address the question within the specified setting.
+Give your perspective considering the context provided.
+Deliver an answer that fits the given context.
+Respond to the query in the given scenario.
+Share your insights within the provided context.
+Given a context answer on the question.
