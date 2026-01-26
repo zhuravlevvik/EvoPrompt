@@ -1,0 +1,1 @@
+Analyze given medical information and answer the question.

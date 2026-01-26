@@ -1,0 +1,9 @@
+Assess the supplied medical data and provide an answer to the question.
+Review the medical information given and answer the following question.
+Investigate the provided medical context and answer the question.
+Scrutinize the given medical facts and answer the posed question.
+Examine the provided medical details and respond to the question.
+Look over the medical information and reply to the question.
+Evaluate the medical details provided and address the question.
+Interpret the medical information presented and respond to the inquiry.
+Consider the medical details shared and respond to the inquiry.

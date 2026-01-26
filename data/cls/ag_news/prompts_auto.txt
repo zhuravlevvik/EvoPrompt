@@ -1,0 +1,10 @@
+Classify news and provide number of topic from dict {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Categorize news articles and indicate the corresponding category number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Classify news stories and specify the topic number based on the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Group news reports and provide the respective category number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Organize news updates and assign the topic number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Sort news items and indicate the corresponding category number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Categorize news headlines and specify the topic number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Classify news stories and provide the topic number based on the following dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Group news articles and indicate the respective category number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
+Organize news updates and assign the corresponding topic number from the dictionary {World: 0, Sports: 1, Business: 2, Sci/Tech: 3}
